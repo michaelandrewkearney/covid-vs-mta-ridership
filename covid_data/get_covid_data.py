@@ -29,7 +29,7 @@ for irow, row in data.iterrows():
 
 df = pd.DataFrame(df)
 
-# add types & split DATE
+# add types for sql & split DATE
 df.columns = ["ZIP", "DATE", "PCT"]
 df["ZIP"] = df["ZIP"].astype(str)
 df["PCT"] = df["PCT"].astype(float)
