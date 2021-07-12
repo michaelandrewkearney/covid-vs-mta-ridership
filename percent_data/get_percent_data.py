@@ -21,6 +21,9 @@ data = pd.read_csv(data_path)
 df = []
 df = pd.DataFrame([], columns = ["ZIP", "COVID_CASE_PERCENT"])
 
+# There are two columns from the csv file we are interested in: MODIFIED_ZCTA, COVID_CASE_RATE
+# MODIFIED_ZCTA is just the grouped ZIP that represents the geographic region we are interested in
+# COVID_CASE_RATE is the number of COVID Cases per 100,000 people, we will be converting that to a percentage
 df["ZIP"] = data["MODIFIED_ZCTA"].astype(str)
 df["COVID_CASE_PERCENT"] = data["COVID_CASE_RATE"].astype(float)
 
