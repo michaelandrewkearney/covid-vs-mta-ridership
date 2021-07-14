@@ -35,28 +35,28 @@ for irow, row in data.iterrows():
 df = pd.DataFrame(df)
 
 # add types for sql & split DATE
-df.columns = ["ZIP", "DATE", "PCT"]
+df.columns = ["ZIP", "DATE", "CASERATE"]
 df["ZIP"] = df["ZIP"].astype(str)
-df["PCT"] = df["PCT"].astype(float)
+df["CASERATE"] = df["CASERATE"].astype(float)
 df["MONTH"] = df["DATE"].str[0:2].astype(int)
 df["DAY"] = df["DATE"].str[3:5].astype(int)
 df["YEAR"] = df["DATE"].str[6:].astype(int)
 
 # Remove DATE
-final = df[["ZIP", "MONTH", "DAY", "YEAR", "PCT"]]
+final = df[["ZIP", "MONTH", "DAY", "YEAR", "CASERATE"]]
 
-print(final["PCT"].describe())
+print(final["CASERATE"].describe())
 
 # Save to SQL database
 disk_engine = create_engine('sqlite:///final_project.db')
 final.to_sql('covid_cases', disk_engine, if_exists='replace', index=False)
 
-# box plot of the variable height
-ax = sns.boxplot(df["PCT"])
+#creating diagrams
+#https://machinelearningmastery.com/quick-and-dirty-data-analysis-with-pandas
+#https://medium.com/swlh/identify-outliers-with-pandas-statsmodels-and-seaborn-2766103bf67c
 
-# notation indicating an outlier
-#ax.annotate('Outlier', xy=(190,0), xytext=(186,-0.05), fontsize=14,
-#            arrowprops=dict(arrowstyle='->', ec='grey', lw=2), bbox = dict(boxstyle="round", fc="0.8"))
+# box plot of the variable height
+ax = sns.boxplot(df["CASERATE"])
 
 # xtick, label, and title
 plt.xticks(fontsize=14)
