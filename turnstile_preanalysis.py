@@ -9,30 +9,45 @@ from urllib.request import urlopen
 import json
 
 df = pd.read_sql_table('the_actual_coolest_table', 'sqlite:///final_project.db')
+incomes_df = pd.read_sql_table('incomes', 'sqlite:///final_project.db')
 
 def percent_change(row): 
     final = row['RIDERSHIP2']
     initial = row['RIDERSHIP1']
     return 100 * (final - initial) / ((final + initial) / 2)
 
+with open('nyc_geo.json') as f:
+  nyc = json.load(f)
 
-with urlopen('https://data-beta-nyc-files.s3.amazonaws.com/resources/6df127b1-6d04-4bb7-b983-07402a2c3f90/f4129d9aa6dd4281bc98d0f701629b76nyczipcodetabulationareas.geojson?Signature=Cgpzk%2FLRH2OybKfTH9ZVpy9tbE8%3D&Expires=1627413384&AWSAccessKeyId=AKIAWM5UKMRH2KITC3QA') as response:
-    nyc = json.load(response)
-
-coolest_df = df.groupby('STATION').agg({'STATION' : 'first', 'RIDERSHIP1' : 'sum', 'RIDERSHIP2' : 'sum', 'ZIP' : 'first'})
+coolest_df = df.groupby('ZIP').agg({'RIDERSHIP1' : 'sum', 'RIDERSHIP2' : 'sum', 'ZIP' : 'first'})
 coolest_df['Percent Change (Ridership)'] = coolest_df.apply(percent_change, axis = 1)
 
 fig = px.choropleth(coolest_df, 
                     geojson = nyc, 
                     locations = "ZIP",
                     color = "Percent Change (Ridership)", 
-                    hover_name = "STATION", 
+                    hover_name = "ZIP", 
                     featureidkey="properties.postalCode", 
                     projection = "mercator")
 
 fig.update_geos(fitbounds="locations", visible=False)
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
+
+income_df = incomes_df.groupby('ZIP').agg({'ZIP' : 'first', 'MED_INCOME' : 'mean'})
+
+fig = px.choropleth(income_df, 
+                    geojson = nyc, 
+                    locations = "ZIP",
+                    color = "MED_INCOME", 
+                    hover_name = "ZIP", 
+                    featureidkey="properties.postalCode", 
+                    projection = "mercator")
+
+fig.update_geos(fitbounds="locations", visible=False)
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+fig.show()
+
 
 
 
