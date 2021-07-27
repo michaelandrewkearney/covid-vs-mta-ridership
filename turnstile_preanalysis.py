@@ -10,6 +10,7 @@ import json
 
 df = pd.read_sql_table('the_actual_coolest_table', 'sqlite:///final_project.db')
 incomes_df = pd.read_sql_table('incomes', 'sqlite:///final_project.db')
+covid_df = pd.read_sql_table('demo_covid_table', 'sqlite:///final_project.db')
 
 def percent_change(row): 
     final = row['RIDERSHIP2']
@@ -48,6 +49,18 @@ fig.update_geos(fitbounds="locations", visible=False)
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
 
+
+fig = px.choropleth(covid_df, 
+                    geojson = nyc, 
+                    locations = "ZIP",
+                    color = "COVID_CASE_PERCENT", 
+                    hover_name = "ZIP", 
+                    featureidkey="properties.postalCode", 
+                    projection = "mercator")
+
+fig.update_geos(fitbounds="locations", visible=False)
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+fig.show()
 
 
 
