@@ -37,3 +37,8 @@ df["COVID_CASE_PERCENT"] = df["COVID_CASE_PERCENT"].apply(lambda rate: round(rat
 conn = sqlite3.connect(sql_path)
 df.to_sql('covid_percent', conn, if_exists='replace', index=False)
 conn.close()
+
+
+# SQL statements used after for future analysis -> join for demographics and caserate anova test
+# CREATE TABLE demo_covid_table3 as SELECT c.ZIP, COVID_CASE_PERCENT, MED_INCOME from covid_percent as c LEFT JOIN 
+# (SELECT ZIP, CAST(ROUND(AVG(MED_INCOME)) AS INT) as MED_INCOME from incomes GROUP BY ZIP) as ic ON ic.ZIP = c.ZIP

@@ -51,3 +51,7 @@ print(ridership_df.head())
 # AND (julianday(datetime(r1.WEEK_START, '-1 year')) - julianday(r2.WEEK_START)) BETWEEN -1 AND 1
 
 # SELECT STATION, WEEK_START, (RIDERSHIP - RIDERSHIP:1)/((RIDERSHIP + RIDERSHIP:1)/2) from cool_table
+
+#CREATE TABLE coolerr_table as SELECT STATION, WEEK_START, (RIDERSHIP - "RIDERSHIP:1")/CAST(((RIDERSHIP + "RIDERSHIP:1")/2) as REAL) as perdif, RIDERSHIP as r1, "RIDERSHIP:1" as r2 from cool_table
+
+#SELECT * from coolerr_table ORDER BY perdif DESC
