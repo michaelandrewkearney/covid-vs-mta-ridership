@@ -38,12 +38,14 @@ df = pd.DataFrame(df)
 df.columns = ["ZIP", "DATE", "CASERATE"]
 df["ZIP"] = df["ZIP"].astype(str)
 df["CASERATE"] = df["CASERATE"].astype(float)
-df["MONTH"] = df["DATE"].str[0:2].astype(int)
-df["DAY"] = df["DATE"].str[3:5].astype(int)
-df["YEAR"] = df["DATE"].str[6:].astype(int)
+df["WEEK_START"] = pd.to_datetime(df["DATE"])
+#df["MONTH"] = df["DATE"].str[0:2].astype(int)
+#df["DAY"] = df["DATE"].str[3:5].astype(int)
+#df["YEAR"] = df["DATE"].str[6:].astype(int)
 
 # Remove DATE
-final = df[["ZIP", "MONTH", "DAY", "YEAR", "CASERATE"]]
+#final = df[["ZIP", "MONTH", "DAY", "YEAR", "CASERATE"]]
+final = df[["ZIP", "WEEK_START", "CASERATE"]]
 
 print(final["CASERATE"].describe())
 

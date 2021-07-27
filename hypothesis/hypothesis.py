@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import sqlite3
+from scipy.stats import ttest_rel
 
 #Goals
 """
