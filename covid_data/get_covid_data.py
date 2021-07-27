@@ -37,7 +37,7 @@ df = pd.DataFrame(df)
 # add types for sql & split DATE
 df.columns = ["ZIP", "DATE", "CASERATE"]
 df["ZIP"] = df["ZIP"].astype(str)
-df["CASERATE"] = df["CASERATE"].astype(float)
+df["CASERATE"] = df["CASERATE"].astype(float).apply(lambda rate: round(rate / 1000, 5))
 df["WEEK_START"] = pd.to_datetime(df["DATE"])
 #df["MONTH"] = df["DATE"].str[0:2].astype(int)
 #df["DAY"] = df["DATE"].str[3:5].astype(int)

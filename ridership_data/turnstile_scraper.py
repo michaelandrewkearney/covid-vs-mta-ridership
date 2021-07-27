@@ -52,6 +52,20 @@ print(ridership_df.head())
 
 # SELECT STATION, WEEK_START, (RIDERSHIP - RIDERSHIP:1)/((RIDERSHIP + RIDERSHIP:1)/2) from cool_table
 
-#CREATE TABLE coolerr_table as SELECT STATION, WEEK_START, (RIDERSHIP - "RIDERSHIP:1")/CAST(((RIDERSHIP + "RIDERSHIP:1")/2) as REAL) as perdif, RIDERSHIP as r1, "RIDERSHIP:1" as r2 from cool_table
+# CREATE TABLE coolerr_table as SELECT STATION, WEEK_START, (RIDERSHIP - "RIDERSHIP:1")/CAST(((RIDERSHIP + "RIDERSHIP:1")/2) as REAL) as perdif, RIDERSHIP as r1, "RIDERSHIP:1" as r2 from cool_table
 
-#SELECT * from coolerr_table ORDER BY perdif DESC
+"""
+SELECT ZIP, WEEK_START1 as WEEK_START, 
+(RIDERSHIP1 - RIDERSHIP2)/CAST(((RIDERSHIP1 + RIDERSHIP2)/2) as REAL) as PER_DIF from the_actual_coolest_table
+
+CREATE TABLE proccessed_ridership AS
+SELECT ZIP, WEEK_START1 as WEEK_START, 
+(RIDERSHIP1 - RIDERSHIP2)/CAST(((RIDERSHIP1 + RIDERSHIP2)/2) as REAL) as PER_DIF from the_actual_coolest_table
+"""
+
+# SELECT * from coolerr_table ORDER BY perdif DESC
+
+"""
+CREATE TABLE cool_table_grouped_zip AS
+SELECT * from cool_table_grouped as c JOIN zip_match as z WHERE c.STATION = z.STATION
+"""
