@@ -41,3 +41,13 @@ ridership_df.to_sql('ridership_per_station', disk_engine, if_exists='replace', i
 
 print(ridership_df.head())
 
+# Have covid data from 07/17/2021 to 8/08/2020
+# So we want 07/17/2021 to 8/08/2019
+# SELECT * from ridership_per_station where datetime(WEEK_START) > datetime('2019-08-08')
+# SELECT *, julianday(WEEK_START) from ridership_per_station where datetime(WEEK_START) > datetime('2019-08-08')
+# SELECT * from ridership_per_station as r1 JOIN ridership_perstation as r2 ON 
+
+# CREATE TABLE cool_table AS SELECT * from ridership_per_station as r1 JOIN ridership_per_station as r2 ON r1.STATION = r2.STATION 
+# AND (julianday(datetime(r1.WEEK_START, '-1 year')) - julianday(r2.WEEK_START)) BETWEEN -1 AND 1
+
+# SELECT STATION, WEEK_START, (RIDERSHIP - RIDERSHIP:1)/((RIDERSHIP + RIDERSHIP:1)/2) from cool_table

@@ -18,7 +18,7 @@ data["Location"] = data["Location"].astype(str)
 data["Data"] = data["Data"].astype(int)
 
 # Filter out outliers
-data = data[data["Data"] <= 180000] 
+#data = data[data["Data"] <= 180000] 
 
 # change column names
 data.columns = ["ZIP", "MED_INCOME"]
