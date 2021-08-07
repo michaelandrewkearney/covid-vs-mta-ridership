@@ -42,3 +42,37 @@ conn.close()
 # SQL statements used after for future analysis -> join for demographics and caserate anova test
 # CREATE TABLE demo_covid_table3 as SELECT c.ZIP, COVID_CASE_PERCENT, MED_INCOME from covid_percent as c LEFT JOIN 
 # (SELECT ZIP, CAST(ROUND(AVG(MED_INCOME)) AS INT) as MED_INCOME from incomes GROUP BY ZIP) as ic ON ic.ZIP = c.ZIP
+
+"""
+CREATE TABLE demo_covid_table as SELECT c.ZIP, COVID_CASE_PERCENT, MED_INCOME from covid_percent as c LEFT JOIN 
+(SELECT ZIP, CAST(ROUND(AVG(MED_INCOME)) AS INT) as MED_INCOME from incomes GROUP BY ZIP) as ic ON ic.ZIP = c.ZIP
+WHERE MED_INCOME IS NOT NULL
+"""
+
+"""
+CREATE TABLE demo_ridership_table as SELECT c.ZIP, PER_DIF, MED_INCOME from proccessed_ridership as c LEFT JOIN 
+(SELECT ZIP, CAST(ROUND(AVG(MED_INCOME)) AS INT) as MED_INCOME from incomes GROUP BY ZIP) as ic ON ic.ZIP = c.ZIP
+"""
+
+"""
+--CREATE TABLE cool_table_grouped AS 
+
+--SELECT STATION, WEEK_START,  as
+
+CREATE TABLE cool_table_grouped AS 
+SELECT STATION, WEEK_START, 
+(RIDERSHIP - "RIDERSHIP:1")/CAST(((RIDERSHIP + "RIDERSHIP:1")/2) as REAL) as PER_DIF from 
+(SELECT STATION, WEEK_START, AVG(RIDERSHIP) as RIDERSHIP, AVG("RIDERSHIP:1") as "RIDERSHIP:1" from cool_table GROUP BY STATION)
+"""
+
+"""
+SELECT c.ZIP, COVID_CASE_PERCENT, PER_DIF, c.MED_INCOME 
+from demo_covid_table as c JOIN demo_ridership_table as r ON c.ZIP = r.ZIP
+"""
+
+"""
+CREATE TABLE demo_all_table AS
+SELECT c.ZIP, COVID_CASE_PERCENT, PER_DIF, c.MED_INCOME 
+from demo_covid_table as c JOIN demo_ridership_table as r ON c.ZIP = r.ZIP
+GROUP BY ZIP
+"""

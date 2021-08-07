@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 import sqlite3
 from scipy.stats import ttest_rel
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-whitegrid')
+from sklearn.model_selection import train_test_split
 
 #Goals
 """
@@ -30,18 +33,37 @@ if __name__ == "__main__":
     conn = sqlite3.connect(sql_path)
 
     # dataset = ... # Some import of the data frame
-    statement = 'SELECT COVID_CASE_PERCENT, PERCENT_RIDERSHIP FROM table_name'
+    #statement = 'SELECT COVID_CASE_PERCENT, PERCENT_RIDERSHIP FROM table_name'
+    statement = 'SELECT CASERATE, PER_DIF FROM proccessed_table'
     dataset = pd.read_sql(statement, conn)
     conn.close()
 
-    data = dataset[['COVID_CASE_PERCENT', 'PERCENT_RIDERSHIP']]
-    data = drop_incomplete_rows(data)
+    data = dataset[['CASERATE', 'PER_DIF']]
+    #data = drop_incomplete_rows(data)
 
-    cases = data[['COVID_CASE_PERCENT']]
-    ridership = data[['PERCENT_RIDERSHIP']]
+    train_df, test_df = train_test_split(data)
 
-    tstats, pvalue = paired_ttest(cases, ridership)
+    cases_train = train_df[['CASERATE']]
+    ridership_train = train_df[['PER_DIF']]
+
+    cases_test = test_df[['CASERATE']]
+    ridership_test = test_df[['PER_DIF']]
+
+    #plt.scatter(cases, ridership, alpha=0.2);
+    #'o', markersize=1);
+    #plt.show()
+
+    tstats, pvalue = paired_ttest(cases_train, ridership_train)
+    print("")
 
     print("Test statistics: ", tstats)
     print("p-value: ", pvalue)
     print("p-value < 0.05", pvalue < 0.05)
+
+    tstats, pvalue = paired_ttest(cases_test, ridership_test)
+    print("")
+
+    print("Test statistics: ", tstats)
+    print("p-value: ", pvalue)
+    print("p-value < 0.05", pvalue < 0.05)
+
