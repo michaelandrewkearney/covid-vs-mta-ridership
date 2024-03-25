@@ -1,6 +1,7 @@
 *.db
 *.log
 *.ftr
+*/__pycache__/
 ridership_data/processed_charts/
 ridership_data/diffed_areas/
 !ridership_data/ridership_in.ftr
